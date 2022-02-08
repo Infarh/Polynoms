@@ -8,15 +8,23 @@ namespace Polynoms
 {
     class Polynom
     {
+        private static double Pow(double x, int n)
+        {
+            var result = 1d;
+
+            for (var i = 0; i < n; i++) 
+                result *= x;
+
+            return result;
+        }
+
         public static double GetValue(double[] a, double x)
         {
             double sum = 0;
 
             for (var i = 0; i < a.Length; i++)
             {
-                var value = a[i] * Math.Pow(x, i);
-
-                sum = sum + value;
+                sum += a[i] * Pow(x, i);
             }
 
             return sum;
