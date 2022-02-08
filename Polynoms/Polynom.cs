@@ -53,5 +53,17 @@ namespace Polynoms
         {
             return GetValueHorner(_A, x);
         }
+
+        public static Polynom operator +(Polynom p1, Polynom p2)
+        {
+            var C = new double[p1._A.Length];
+
+            for (var i = 0; i < C.Length; i++)
+            {
+                C[i] = p1._A[i] + p2._A[i];
+            }
+
+            return new Polynom(C);
+        }
     }
 }
