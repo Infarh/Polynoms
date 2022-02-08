@@ -29,5 +29,17 @@ namespace Polynoms
 
             return sum;
         }
+
+        public static double GetValueHorner(double[] a, double x)
+        {
+            double sum = a[a.Length - 1];
+
+            for (var i = a.Length - 2; i >= 0; i--)
+            {
+                sum = sum * x + a[i];
+            }
+
+            return sum;
+        }
     }
 }
