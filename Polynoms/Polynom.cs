@@ -41,5 +41,17 @@ namespace Polynoms
 
             return sum;
         }
+
+        private double[] _A;
+
+        public Polynom(double[] A)
+        {
+            _A = A;
+        }
+
+        public double Value(double x)
+        {
+            return GetValueHorner(_A, x);
+        }
     }
 }
