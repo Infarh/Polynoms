@@ -36,6 +36,11 @@ var plot_model = new PlotModel
     Series =
     {
         new FunctionSeries(p.Value, x1, x2, dx)
+        {
+            Color = OxyColors.Red,
+            StrokeThickness = 2,
+            LineStyle = LineStyle.Dash,
+        }
     }
 };
 
