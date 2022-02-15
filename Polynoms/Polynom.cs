@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Polynoms
 {
-    class Polynom
+    public class Polynom
     {
         private static double Pow(double x, int n)
         {
@@ -42,7 +42,13 @@ namespace Polynoms
             return sum;
         }
 
-        private double[] _A;
+        private readonly double[] _A;
+
+        public int Length => _A.Length;
+
+        public int Power => _A.Length - 1;
+
+        public IReadOnlyList<double> Coefficients => _A;
 
         public Polynom(double[] A)
         {
@@ -56,14 +62,58 @@ namespace Polynoms
 
         public static Polynom operator +(Polynom p1, Polynom p2)
         {
-            var C = new double[p1._A.Length];
+            if (p1 is null) throw new ArgumentNullException(nameof(p1));
+            if (p2 is null) throw new ArgumentNullException(nameof(p2));
 
-            for (var i = 0; i < C.Length; i++)
+            var p1_length = p1.Length;
+            var p2_length = p2.Length;
+
+            if (p1_length > p2_length)
             {
-                C[i] = p1._A[i] + p2._A[i];
-            }
+                var result = (double[])p1._A.Clone();
+                //var result = new double[p1_length]; // неправильно - надо скопировать остальные элементы высших порядков в результат
+                for (var i = 0; i < p2_length; i++) 
+                    result[i] = p1._A[i] + p2._A[i];
 
-            return new Polynom(C);
+                return new Polynom(result);
+            }
+            else
+            {
+                var result = (double[])p2._A.Clone();
+                //var result = new double[p2_length];
+                for (var i = 0; i < p1_length; i++)
+                    result[i] = p1._A[i] + p2._A[i];
+
+                return new Polynom(result);
+            }
+        }
+
+        public static Polynom operator -(Polynom p1, Polynom p2)
+        {
+            if (p1 is null) throw new ArgumentNullException(nameof(p1));
+            if (p2 is null) throw new ArgumentNullException(nameof(p2));
+
+            var p1_length = p1.Length;
+            var p2_length = p2.Length;
+
+            if (p1_length > p2_length)
+            {
+                var result = (double[])p1._A.Clone();
+                //var result = new double[p1_length]; // неправильно - надо скопировать остальные элементы высших порядков в результат
+                for (var i = 0; i < p2_length; i++) 
+                    result[i] = p1._A[i] - p2._A[i];
+
+                return new Polynom(result);
+            }
+            else
+            {
+                var result = (double[])p2._A.Clone();
+                //var result = new double[p2_length];
+                for (var i = 0; i < p1_length; i++)
+                    result[i] = p1._A[i] - p2._A[i];
+
+                return new Polynom(result);
+            }
         }
     }
 }
