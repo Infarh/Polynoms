@@ -84,5 +84,34 @@ namespace Polynoms.Tests
 
             CollectionAssert.AreEqual(expected_sum, actual_sum_coefficients);
         }
+
+        [TestMethod]
+        public void op_Sum_Polynom_Polynom_2()
+        {
+            double[] a = { 3, 5, 7 };
+            double[] b = { 2, 4, 6, 8, 10 };
+
+            double[] expected_sum = { 5, 9, 13, 8, 10 };
+
+            var p = new Polynom(a);
+            var q = new Polynom(b);
+
+            var sum = p + q;
+
+            for (var i = 0; i < 1000; i++)
+            {
+                var x0 = (Random.Shared.NextDouble() - 0.5) * 10;
+
+                var y_p = p.Value(x0);
+                var y_q = q.Value(x0);
+
+                var y_sum = sum.Value(x0);
+
+                var expected_y = y_p + y_q;
+
+                const double accuracy = 1e-11;
+                Assert.AreEqual(expected_y, y_sum, accuracy);
+            }
+        }
     }
 }
