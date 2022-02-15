@@ -1,8 +1,11 @@
 ﻿
 using System.Globalization;
+
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.ImageSharp;
 using OxyPlot.Series;
+
 using Polynoms;
 
 double[] A = { -3, -7, 2, 5 };
@@ -20,7 +23,7 @@ using var file = File.CreateText("polinom.csv");
 
 for (var x = x1; x <= x2; x += dx)
 {
-    file.WriteLine("{0};{1}", 
+    file.WriteLine("{0};{1}",
         x.ToString(CultureInfo.CurrentCulture),
         p.Value(x).ToString(CultureInfo.CurrentCulture));
 
@@ -41,10 +44,29 @@ var plot_model = new PlotModel
             StrokeThickness = 2,
             LineStyle = LineStyle.Dash,
         }
+    },
+    Axes =
+    {
+        new LinearAxis
+        {
+            Position = AxisPosition.Left,
+            MajorGridlineStyle = LineStyle.Dash,
+            MinorGridlineStyle = LineStyle.Dot,
+            MajorGridlineColor = OxyColors.Gray,
+            MinorGridlineColor = OxyColors.LightGray,
+        },
+        new LinearAxis
+        {
+            Position = AxisPosition.Bottom,
+            MajorGridlineStyle = LineStyle.Dash,
+            MinorGridlineStyle = LineStyle.Dot,
+            MajorGridlineColor = OxyColors.Gray,
+            MinorGridlineColor = OxyColors.LightGray,
+        }
     }
 };
 
-var png_exporter = new PngExporter(800, 600);
+var png_exporter = new PngExporter(800, 600, 90);
 
 using var png_file = File.Create("graph.png");
 png_exporter.Export(plot_model, png_file);
