@@ -2,6 +2,7 @@
 using System.Globalization;
 
 using OxyPlot;
+using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.ImageSharp;
 using OxyPlot.Legends;
@@ -87,6 +88,31 @@ var plot_model = new PlotModel
             LegendFontSize = 18,
         }
     },
+    Annotations =
+    {
+        new ArrowAnnotation
+        {
+            EndPoint = new(-0.2, 4),
+            StartPoint = new(0.4, 2),
+            Color = OxyColors.Red, 
+            StrokeThickness = 2,
+        },
+        new LineAnnotation
+        {
+            X = -0.6,
+            Type = LineAnnotationType.Vertical,
+            Color = OxyColors.Red,
+            StrokeThickness = 2
+        },
+        new LineAnnotation
+        {
+            Y = 6,
+            Color = OxyColors.Blue,
+            StrokeThickness = 3,
+            Type = LineAnnotationType.Horizontal,
+            LineStyle = LineStyle.DashDashDot,
+        },
+    }
 };
 
 var png_exporter = new PngExporter(800, 600, 90);
