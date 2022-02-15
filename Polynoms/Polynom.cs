@@ -54,13 +54,13 @@ namespace Polynoms
             return GetValueHorner(_A, x);
         }
 
-        public static Polynom operator +(Polynom p1, Polynom p2)
+        public static Polynom operator +(Polynom a, Polynom b)
         {
-            var C = new double[p1._A.Length];
+            var C = new double[a._A.Length]; // Создаём новый массив коэффициентов полинома-результата
 
             for (var i = 0; i < C.Length; i++)
             {
-                C[i] = p1._A[i] + p2._A[i];
+                C[i] = a._A[i] + b._A[i];
             }
 
             return new Polynom(C);
