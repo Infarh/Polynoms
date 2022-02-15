@@ -4,13 +4,16 @@ using System.Globalization;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.ImageSharp;
+using OxyPlot.Legends;
 using OxyPlot.Series;
 
 using Polynoms;
 
 double[] A = { -3, -7, 2, 5 };
+double[] B = { 7, 10, -5, -12 };
 
 var p = new Polynom(A);
+var q = new Polynom(B);
 
 const double x1 = -1;
 const double x2 = 1;
@@ -42,8 +45,16 @@ var plot_model = new PlotModel
         {
             Color = OxyColors.Red,
             StrokeThickness = 2,
+            LineStyle = LineStyle.Solid,
+            Title = "p(x) =   5x^3 + 2x^2 -  7x - 3",
+        },
+        new FunctionSeries(q.Value, x1, x2, dx)
+        {
+            Color = OxyColors.Blue,
+            StrokeThickness = 2,
             LineStyle = LineStyle.Dash,
-        }
+            Title = "p(x) = -12x^3 - 5x^2 + 10x + 7",
+        },
     },
     Axes =
     {
@@ -63,7 +74,7 @@ var plot_model = new PlotModel
             MajorGridlineColor = OxyColors.Gray,
             MinorGridlineColor = OxyColors.LightGray,
         }
-    }
+    },
 };
 
 var png_exporter = new PngExporter(800, 600, 90);
