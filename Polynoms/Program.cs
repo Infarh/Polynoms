@@ -1,23 +1,23 @@
 ﻿
+using System.Globalization;
 using Polynoms;
 
 double[] A = { -3, -7, 2, 5 };
-double[] B = {  7, 10, 1, 1 };
 
-double x = 5;
+var p = new Polynom(A);
 
-Polynom p1 = new Polynom(A);
-Polynom p2 = new Polynom(B);
+const double x1 = -1;
+const double x2 = 1;
+const int points_count = 101;
+const double dx = (x2 - x1) / (points_count - 1);
 
-Polynom p3 = p1 + p2;
+using var file = File.CreateText("polinom.csv");
+//CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+//CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
 
-//var y = Polynom.GetValueHorner(A, x);
-
-var y1 = p1.Value(5);
-var y2 = p2.Value(5);
-var y3 = p3.Value(5);
-
-Console.WriteLine("y1(x) = {0}", y1);
-Console.WriteLine("y2(x) = {0}", y2);
-Console.WriteLine("y1(x) + y2(x) = {0}", y1 + y2);
-Console.WriteLine("y3(x) = {0}", y3);
+for (var x = x1; x <= x2; x += dx)
+{
+    file.WriteLine("{0};{1}", 
+        x.ToString(CultureInfo.InvariantCulture),
+        p.Value(x).ToString(CultureInfo.InvariantCulture));
+}
