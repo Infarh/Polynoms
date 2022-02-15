@@ -18,6 +18,10 @@ using var file = File.CreateText("polinom.csv");
 for (var x = x1; x <= x2; x += dx)
 {
     file.WriteLine("{0};{1}", 
-        x.ToString(CultureInfo.InvariantCulture),
-        p.Value(x).ToString(CultureInfo.InvariantCulture));
+        x.ToString(CultureInfo.CurrentCulture),
+        p.Value(x).ToString(CultureInfo.CurrentCulture));
+
+    //file.WriteLine("{0};{1}",
+    //    x.ToString(CultureInfo.InvariantCulture),
+    //    p.Value(x).ToString(CultureInfo.InvariantCulture));
 }
