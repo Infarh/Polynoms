@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Polynoms
 {
-    class Polynom
+    public class Polynom
     {
         private static double Pow(double x, int n)
         {
