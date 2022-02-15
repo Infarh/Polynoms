@@ -75,6 +75,18 @@ var plot_model = new PlotModel
             MinorGridlineColor = OxyColors.LightGray,
         }
     },
+    IsLegendVisible = true,
+    Legends =
+    {
+        new Legend
+        {
+            LegendPosition = LegendPosition.LeftTop,
+            LegendBackground = OxyColors.White,
+            LegendBorder = OxyColors.Black,
+            LegendBorderThickness = 1,
+            LegendFontSize = 18,
+        }
+    },
 };
 
 var png_exporter = new PngExporter(800, 600, 90);
