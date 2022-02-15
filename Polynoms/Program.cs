@@ -1,5 +1,8 @@
 ﻿
 using System.Globalization;
+using OxyPlot;
+using OxyPlot.ImageSharp;
+using OxyPlot.Series;
 using Polynoms;
 
 double[] A = { -3, -7, 2, 5 };
@@ -25,3 +28,18 @@ for (var x = x1; x <= x2; x += dx)
     //    x.ToString(CultureInfo.InvariantCulture),
     //    p.Value(x).ToString(CultureInfo.InvariantCulture));
 }
+
+var plot_model = new PlotModel
+{
+    Title = "График полинома",
+    Background = OxyColors.White,
+    Series =
+    {
+        new FunctionSeries(p.Value, x1, x2, dx)
+    }
+};
+
+var png_exporter = new PngExporter(800, 600);
+
+using var png_file = File.Create("graph.png");
+png_exporter.Export(plot_model, png_file);
