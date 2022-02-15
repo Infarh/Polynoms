@@ -91,8 +91,6 @@ namespace Polynoms.Tests
             double[] a = { 3, 5, 7 };
             double[] b = { 2, 4, 6, 8, 10 };
 
-            double[] expected_sum = { 5, 9, 13, 8, 10 };
-
             var p = new Polynom(a);
             var q = new Polynom(b);
 
