@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Polynoms.Tests
@@ -36,8 +37,6 @@ namespace Polynoms.Tests
             Assert.AreEqual(expected_y, actual_y);
         }
 
-
-
         [TestMethod]
         public void Value_of_3_5_7()
         {
@@ -66,6 +65,24 @@ namespace Polynoms.Tests
 
                 Assert.AreEqual(expected_y, actual_y, 1e-12);
             }
+        }
+
+        [TestMethod]
+        public void op_Sum_Polynom_Polynom()
+        {
+            double[] a = { 3, 5, 7 };
+            double[] b = { 2, 4, 6, 8, 10 };
+
+            double[] expected_sum = { 5, 9, 13, 8, 10 };
+
+            var p = new Polynom(a);
+            var q = new Polynom(b);
+
+            var sum = p + q;
+
+            var actual_sum_coefficients = sum.Coefficients.ToArray();
+
+            CollectionAssert.AreEqual(expected_sum, actual_sum_coefficients);
         }
     }
 }
