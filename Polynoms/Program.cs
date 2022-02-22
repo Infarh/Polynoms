@@ -1,121 +1,19 @@
-﻿
-using System.Globalization;
+﻿using Polynoms;
 
-using OxyPlot;
-using OxyPlot.Annotations;
-using OxyPlot.Axes;
-using OxyPlot.ImageSharp;
-using OxyPlot.Legends;
-using OxyPlot.Series;
+double[] a = Enumerable.Range(0, 51).Select(i => i % 2 == 0 ? (double)i : -i)/*.Reverse()*/.ToArray();
 
-using Polynoms;
+Array.Reverse(a);
 
-double[] A = { -3, -7, 2, 5 };
-double[] B = { 7, 10, -5, -12 };
+const double x0 = 7;
 
-var p = new Polynom(A);
-var q = new Polynom(B);
+var start_time = DateTime.Now;
 
-const double x1 = -1;
-const double x2 = 1;
-const int points_count = 101;
-const double dx = (x2 - x1) / (points_count - 1);
+var y = Polynom.GetValueNaive(a, x0);
 
-using var file = File.CreateText("polinom.csv");
-//CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-//CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+var end_time = DateTime.Now;
 
-for (var x = x1; x <= x2; x += dx)
-{
-    file.WriteLine("{0};{1}",
-        x.ToString(CultureInfo.CurrentCulture),
-        p.Value(x).ToString(CultureInfo.CurrentCulture));
+var delta_time = end_time - start_time;
 
-    //file.WriteLine("{0};{1}",
-    //    x.ToString(CultureInfo.InvariantCulture),
-    //    p.Value(x).ToString(CultureInfo.InvariantCulture));
-}
+Console.WriteLine("Вычисление заняло {0}", delta_time);
 
-var plot_model = new PlotModel
-{
-    Title = "График полинома",
-    Background = OxyColors.White,
-    Series =
-    {
-        new FunctionSeries(p.Value, x1, x2, dx)
-        {
-            Color = OxyColors.Red,
-            StrokeThickness = 2,
-            LineStyle = LineStyle.Solid,
-            Title = "p(x) =   5x^3 + 2x^2 -  7x - 3",
-        },
-        new FunctionSeries(q.Value, x1, x2, dx)
-        {
-            Color = OxyColors.Blue,
-            StrokeThickness = 2,
-            LineStyle = LineStyle.Dash,
-            Title = "p(x) = -12x^3 - 5x^2 + 10x + 7",
-        },
-    },
-    Axes =
-    {
-        new LinearAxis
-        {
-            Position = AxisPosition.Left,
-            MajorGridlineStyle = LineStyle.Dash,
-            MinorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColors.Gray,
-            MinorGridlineColor = OxyColors.LightGray,
-        },
-        new LinearAxis
-        {
-            Position = AxisPosition.Bottom,
-            MajorGridlineStyle = LineStyle.Dash,
-            MinorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColors.Gray,
-            MinorGridlineColor = OxyColors.LightGray,
-        }
-    },
-    IsLegendVisible = true,
-    Legends =
-    {
-        new Legend
-        {
-            LegendPosition = LegendPosition.LeftTop,
-            LegendBackground = OxyColors.White,
-            LegendBorder = OxyColors.Black,
-            LegendBorderThickness = 1,
-            LegendFontSize = 18,
-        }
-    },
-    Annotations =
-    {
-        new ArrowAnnotation
-        {
-            EndPoint = new(-0.2, 4),
-            StartPoint = new(0.4, 2),
-            Color = OxyColors.Red, 
-            StrokeThickness = 2,
-        },
-        new LineAnnotation
-        {
-            X = -0.6,
-            Type = LineAnnotationType.Vertical,
-            Color = OxyColors.Red,
-            StrokeThickness = 2
-        },
-        new LineAnnotation
-        {
-            Y = 6,
-            Color = OxyColors.Blue,
-            StrokeThickness = 3,
-            Type = LineAnnotationType.Horizontal,
-            LineStyle = LineStyle.DashDashDot,
-        },
-    }
-};
-
-var png_exporter = new PngExporter(800, 600, 90);
-
-using var png_file = File.Create("graph.png");
-png_exporter.Export(plot_model, png_file);
+Console.ReadLine();
