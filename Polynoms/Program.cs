@@ -9,16 +9,17 @@ const double x0 = 7;
 
 var start_time = DateTime.Now;
 //var ticks_count_from_system_start = Environment.TickCount; // количество времени в тиках (тактах), прошедшее с момента запуска системы
-var timer = Stopwatch.StartNew();
+var timer = new Stopwatch();
 
 const int count = 1_000_000;
 
 for (var i = 0; i < count; i++)
 {
+    timer.Start();
     var y = Polynom.GetValueNaive(a, x0);
+    timer.Stop();
 }
 
-timer.Stop();
 
 var delta_time = DateTime.Now - start_time;
 var delta_time2 = timer.Elapsed;
