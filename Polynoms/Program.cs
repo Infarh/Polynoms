@@ -1,4 +1,5 @@
-﻿using Polynoms;
+﻿using System.Diagnostics;
+using Polynoms;
 
 double[] a = Enumerable.Range(0, 51).Select(i => i % 2 == 0 ? (double)i : -i)/*.Reverse()*/.ToArray();
 
@@ -7,6 +8,8 @@ Array.Reverse(a);
 const double x0 = 7;
 
 var start_time = DateTime.Now;
+//var ticks_count_from_system_start = Environment.TickCount; // количество времени в тиках (тактах), прошедшее с момента запуска системы
+var timer = Stopwatch.StartNew();
 
 const int count = 1_000_000;
 
@@ -15,10 +18,11 @@ for (var i = 0; i < count; i++)
     var y = Polynom.GetValueNaive(a, x0);
 }
 
-var end_time = DateTime.Now;
+timer.Stop();
 
-var delta_time = end_time - start_time;
+var delta_time = DateTime.Now - start_time;
+var delta_time2 = timer.Elapsed;
 
-Console.WriteLine("Вычисление заняло {0} мс", delta_time.TotalMilliseconds / count);
+Console.WriteLine("Вычисление заняло {0} мс", delta_time2.TotalMilliseconds / count);
 
 Console.ReadLine();
