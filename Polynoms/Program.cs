@@ -11,6 +11,15 @@ var start_time = DateTime.Now;
 //var ticks_count_from_system_start = Environment.TickCount; // количество времени в тиках (тактах), прошедшее с момента запуска системы
 var timer = new Stopwatch();
 
+#region "Разогрев" тестируемого кода - устранение переходных процессов: компиляция, выделения памяти и пр.
+
+for (var i = 0; i < 1000; i++)
+{
+    var y = Polynom.GetValueNaive(a, x0);
+} 
+
+#endregion
+
 const int count = 1_000_000;
 
 for (var i = 0; i < count; i++)
