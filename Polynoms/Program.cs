@@ -22,13 +22,16 @@ for (var i = 0; i < 1000; i++)
 
 const int count = 1_000_000;
 
+var sum_len = 0.0;
 for (var i = 0; i < count; i++)
 {
     timer.Start();
     var y = Polynom.GetValueNaive(a, x0);
     timer.Stop();
+    sum_len += y;
 }
 
+Console.WriteLine(sum_len);
 
 var delta_time = DateTime.Now - start_time;
 var delta_time2 = timer.Elapsed;
