@@ -2,7 +2,7 @@
 
 public class Histogram
 {
-    private int[] _Counts;
+    private readonly int[] _Counts;
 
     public int IntervalsCount { get; }
     public int SamplesCount { get; }
@@ -17,6 +17,10 @@ public class Histogram
     public double Mean { get; }
     public double Variance { get; }
     public double StdDev { get; }
+
+    public IReadOnlyList<int> Counts => _Counts;
+
+    public double this[int index] => _Counts[index] / (double)SamplesCount;
 
     public Histogram(double[] Samples, int IntervalsCount)
     {
