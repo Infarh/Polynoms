@@ -1,5 +1,7 @@
 ﻿
 using OxyPlot;
+using OxyPlot.Annotations;
+using OxyPlot.Axes;
 using OxyPlot.ImageSharp;
 using OxyPlot.Series;
 
@@ -8,6 +10,8 @@ using Polynoms;
 var rnd = new Random();
 
 const int count = 100_000;
+const double mu = 100;
+const double sigma = 200;
 
 var samples = new double[count];
 
@@ -21,7 +25,7 @@ for (var i = 0; i < count; i++)
     //    ;
 
     //samples[i] = x / 1.3;
-    samples[i] = rnd.NextNormal();
+    samples[i] = rnd.NextNormal(sigma, mu);
 }
 
 
@@ -49,17 +53,77 @@ var plot = new PlotModel
             StrokeThickness = 1,
             ItemsSource = histogram_values
         },
-        new FunctionSeries(x => NormalDistribution.Distribution(x), histogram.Min, histogram.Max, histogram.dx / 20)
+        new FunctionSeries(x => NormalDistribution.Distribution(x, mu, sigma), histogram.Min, histogram.Max, histogram.dx / 20)
         {
             Color = OxyColors.Red,
         }
+    },
+    Axes =
+    {
+        new LinearAxis
+        {
+            Title = "N(μ,σ)",
+            Position = AxisPosition.Left,
+            MajorGridlineStyle = LineStyle.Solid,
+            MinorGridlineStyle = LineStyle.Dash,
+
+        },
+        new LinearAxis
+        {
+            Title = "x",
+            Position = AxisPosition.Bottom,
+            MajorGridlineStyle = LineStyle.Solid,
+            MinorGridlineStyle = LineStyle.Dash,
+        }
+    },
+    Annotations =
+    {
+        new LineAnnotation
+        {
+            Type = LineAnnotationType.Vertical,
+            X = mu,
+            Color = OxyColors.Red,
+            StrokeThickness = 3,
+            LineStyle = LineStyle.Dash,
+            Text = $"μ = {mu}",
+            TextColor = OxyColors.Red,
+            FontSize = 16,
+        },
+        new LineAnnotation
+        {
+            Type = LineAnnotationType.Vertical,
+            X = mu - sigma * 3,
+            Color = OxyColors.Red,
+            StrokeThickness = 1,
+            //LineStyle = LineStyle.Solid,
+            Text = "μ-3σ",
+            TextColor = OxyColors.Red,
+            FontSize = 16,
+        },
+        new LineAnnotation
+        {
+            Type = LineAnnotationType.Vertical,
+            X = mu + sigma * 3,
+            Color = OxyColors.Red,
+            StrokeThickness = 1,
+            //LineStyle = LineStyle.Solid,
+            Text = "μ+3σ",
+            TextColor = OxyColors.Red,
+            FontSize = 16,
+        },
+        new ArrowAnnotation
+        {
+            EndPoint = new(mu - sigma, NormalDistribution.Distribution(mu - sigma, mu, sigma)),
+            StartPoint = new(mu - sigma - sigma / 2, NormalDistribution.Distribution(mu - sigma, mu, sigma) * 1.02),
+            Color = OxyColors.Red,
+        },
     }
 };
 
 
 var exporter = new PngExporter(800, 600);
 
-using(var histogram_file = File.Create("histogram.png"))
+using (var histogram_file = File.Create("histogram.png"))
     exporter.Export(plot, histogram_file);
 
 //Console.WriteLine();
