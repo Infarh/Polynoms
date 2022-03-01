@@ -62,16 +62,19 @@ public class Histogram
         _Counts = counts;
         foreach (var x in Samples)
         {
-            if(x != max)
-            {
-                var index = (int)((x - min) / dx);
-                counts[index]++;
-            }
-            else
-            {
-                var index = (int)((x - min) / dx) - 1;
-                counts[index]++;
-            }
+            var index = Math.Min((int)((x - min) / dx), counts.Length - 1);
+            counts[index]++;
+
+            //if(x != max)
+            //{
+            //    var index = (int)((x - min) / dx);
+            //    counts[index]++;
+            //}
+            //else
+            //{
+            //    var index = (int)((x - min) / dx) - 1;
+            //    counts[index]++;
+            //}
 
 
             //for (var i = 0; i < IntervalsCount; i++)
