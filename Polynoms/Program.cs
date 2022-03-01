@@ -1,121 +1,129 @@
 ﻿
-using System.Globalization;
-
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.ImageSharp;
-using OxyPlot.Legends;
 using OxyPlot.Series;
 
 using Polynoms;
 
-double[] A = { -3, -7, 2, 5 };
-double[] B = { 7, 10, -5, -12 };
+var rnd = new Random();
 
-var p = new Polynom(A);
-var q = new Polynom(B);
+const int count = 100_000;
+const double mu = 100;
+const double sigma = 200;
 
-const double x1 = -1;
-const double x2 = 1;
-const int points_count = 101;
-const double dx = (x2 - x1) / (points_count - 1);
+var samples = new double[count];
 
-using var file = File.CreateText("polinom.csv");
-//CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-//CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
-
-for (var x = x1; x <= x2; x += dx)
+for (var i = 0; i < count; i++)
 {
-    file.WriteLine("{0};{1}",
-        x.ToString(CultureInfo.CurrentCulture),
-        p.Value(x).ToString(CultureInfo.CurrentCulture));
+    //var x = (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    ;
 
-    //file.WriteLine("{0};{1}",
-    //    x.ToString(CultureInfo.InvariantCulture),
-    //    p.Value(x).ToString(CultureInfo.InvariantCulture));
+    //samples[i] = x / 1.3;
+    samples[i] = rnd.NextNormal(sigma, mu);
 }
 
-var plot_model = new PlotModel
+
+const int intervals_count = 20;
+var histogram = new Histogram(samples, intervals_count);
+
+var histogram_values = new HistogramItem[intervals_count];
+for (var i = 0; i < intervals_count; i++)
 {
-    Title = "График полинома",
+    var min = histogram.Min + i * histogram.dx;
+    var max = min + histogram.dx;
+    histogram_values[i] = new HistogramItem(min, max, histogram[i], 0);
+}
+
+var plot = new PlotModel
+{
+    Title = "Гистограмма выборки случайной величины",
     Background = OxyColors.White,
     Series =
     {
-        new FunctionSeries(p.Value, x1, x2, dx)
+        new HistogramSeries
+        {
+            FillColor = OxyColors.Blue,
+            StrokeColor = OxyColors.DarkBlue,
+            StrokeThickness = 1,
+            ItemsSource = histogram_values
+        },
+        new FunctionSeries(x => NormalDistribution.Distribution(x, mu, sigma), histogram.Min, histogram.Max, histogram.dx / 20)
         {
             Color = OxyColors.Red,
-            StrokeThickness = 2,
-            LineStyle = LineStyle.Solid,
-            Title = "p(x) =   5x^3 + 2x^2 -  7x - 3",
-        },
-        new FunctionSeries(q.Value, x1, x2, dx)
-        {
-            Color = OxyColors.Blue,
-            StrokeThickness = 2,
-            LineStyle = LineStyle.Dash,
-            Title = "p(x) = -12x^3 - 5x^2 + 10x + 7",
-        },
+        }
     },
     Axes =
     {
         new LinearAxis
         {
+            Title = "N(μ,σ)",
             Position = AxisPosition.Left,
-            MajorGridlineStyle = LineStyle.Dash,
-            MinorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColors.Gray,
-            MinorGridlineColor = OxyColors.LightGray,
+            MajorGridlineStyle = LineStyle.Solid,
+            MinorGridlineStyle = LineStyle.Dash,
+
         },
         new LinearAxis
         {
+            Title = "x",
             Position = AxisPosition.Bottom,
-            MajorGridlineStyle = LineStyle.Dash,
-            MinorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColors.Gray,
-            MinorGridlineColor = OxyColors.LightGray,
-        }
-    },
-    IsLegendVisible = true,
-    Legends =
-    {
-        new Legend
-        {
-            LegendPosition = LegendPosition.LeftTop,
-            LegendBackground = OxyColors.White,
-            LegendBorder = OxyColors.Black,
-            LegendBorderThickness = 1,
-            LegendFontSize = 18,
+            MajorGridlineStyle = LineStyle.Solid,
+            MinorGridlineStyle = LineStyle.Dash,
         }
     },
     Annotations =
     {
+        new LineAnnotation
+        {
+            Type = LineAnnotationType.Vertical,
+            X = mu,
+            Color = OxyColors.Red,
+            StrokeThickness = 3,
+            LineStyle = LineStyle.Dash,
+            Text = $"μ = {mu}",
+            TextColor = OxyColors.Red,
+            FontSize = 16,
+        },
+        new LineAnnotation
+        {
+            Type = LineAnnotationType.Vertical,
+            X = mu - sigma * 3,
+            Color = OxyColors.Red,
+            StrokeThickness = 1,
+            //LineStyle = LineStyle.Solid,
+            Text = "μ-3σ",
+            TextColor = OxyColors.Red,
+            FontSize = 16,
+        },
+        new LineAnnotation
+        {
+            Type = LineAnnotationType.Vertical,
+            X = mu + sigma * 3,
+            Color = OxyColors.Red,
+            StrokeThickness = 1,
+            //LineStyle = LineStyle.Solid,
+            Text = "μ+3σ",
+            TextColor = OxyColors.Red,
+            FontSize = 16,
+        },
         new ArrowAnnotation
         {
-            EndPoint = new(-0.2, 4),
-            StartPoint = new(0.4, 2),
-            Color = OxyColors.Red, 
-            StrokeThickness = 2,
-        },
-        new LineAnnotation
-        {
-            X = -0.6,
-            Type = LineAnnotationType.Vertical,
+            EndPoint = new(mu - sigma, NormalDistribution.Distribution(mu - sigma, mu, sigma)),
+            StartPoint = new(mu - sigma - sigma / 2, NormalDistribution.Distribution(mu - sigma, mu, sigma) * 1.02),
             Color = OxyColors.Red,
-            StrokeThickness = 2
-        },
-        new LineAnnotation
-        {
-            Y = 6,
-            Color = OxyColors.Blue,
-            StrokeThickness = 3,
-            Type = LineAnnotationType.Horizontal,
-            LineStyle = LineStyle.DashDashDot,
         },
     }
 };
 
-var png_exporter = new PngExporter(800, 600, 90);
 
-using var png_file = File.Create("graph.png");
-png_exporter.Export(plot_model, png_file);
+var exporter = new PngExporter(800, 600);
+
+using (var histogram_file = File.Create("histogram.png"))
+    exporter.Export(plot, histogram_file);
+
+//Console.WriteLine();
