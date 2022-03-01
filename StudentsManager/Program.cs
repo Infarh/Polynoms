@@ -28,5 +28,6 @@ var students = new Student[]
 };
 
 XmlDocumentExamples.WriteDocument(students, "students.xml");
+var new_students = XmlDocumentExamples.ReadDocument("students.xml");
 
-//Console.ReadLine();
+Console.ReadLine();

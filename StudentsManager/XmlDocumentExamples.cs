@@ -48,4 +48,39 @@ public static class XmlDocumentExamples
 
         xml_doc.Save(FileName);
     }
+
+    public static Student[] ReadDocument(string FileName)
+    {
+        var doc = new XmlDocument();
+
+        doc.Load(FileName);
+
+        var students_node = doc.FirstChild;
+
+        var students = new List<Student>();
+
+        foreach (XmlElement student_node in students_node.ChildNodes)
+        {
+            //var id_str = student_node.Attributes["id"]?.Value;
+            var id_str = student_node.GetAttribute("id");
+
+            var last_name = student_node.GetElementsByTagName("LastName")[0].InnerText;
+            var first_name = student_node.GetElementsByTagName("FirstName")[0].InnerText;
+            var patronymic = student_node.GetElementsByTagName("Patronymic")[0].InnerText;
+            var rating_text = student_node.GetElementsByTagName("Rating")[0].InnerText;
+
+            var student = new Student
+            {
+                Id = int.TryParse(id_str, out var id) ? id : 0,
+                LastName = last_name,
+                FirstName = first_name,
+                Patronymic = patronymic,
+                Rating = double.TryParse(rating_text, NumberStyles.Any, CultureInfo.InvariantCulture, out var rating) ? rating : 0,
+            };
+
+            students.Add(student);
+        }
+
+        return students.ToArray();
+    }
 }
