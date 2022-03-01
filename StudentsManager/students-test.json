@@ -1,0 +1,32 @@
+{
+  "Students": [
+    {
+      "LastName": "Иванов",
+      "FirstName": "Иван",
+      "Patronymic": "Иванович",
+      "Rating": 3.14,
+      "IsActive": true
+    },
+    {
+      "LastName": "Петров",
+      "FirstName": "Пётр",
+      "Patronymic": "Петрович",
+      "Rating": 42,
+      "IsActive": false
+    },
+    {
+      "LastName": "Сидоров",
+      "FirstName": "Сидор",
+      "Patronymic": "Сидорович",
+      "Rating": 83,
+      "IsActive": true,
+      "TestValue": null 
+    },
+    "String test",
+    42,
+    3.14,
+    true,
+    false,
+    null
+  ]
+}
