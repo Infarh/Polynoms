@@ -1,0 +1,22 @@
+﻿<Students>
+  <Student Id="0" Comment="QWE">
+    <LastName>Иванов</LastName>
+    <FirstName>Иван</FirstName>
+    <Patronymic>Иванович</Patronymic>
+    <Rating>3.14</Rating>
+  </Student>
+
+  <Student Id="1">
+    <LastName>Петров</LastName>
+    <FirstName>Пётр</FirstName>
+    <Patronymic>Петрович</Patronymic>
+    <Rating>42</Rating>
+  </Student>
+
+  <Student Id="2">
+    <LastName>Сидоров</LastName>
+    <FirstName>Сидор</FirstName>
+    <Patronymic>Сидорович</Patronymic>
+    <Rating>83</Rating>
+  </Student>
+</Students>
