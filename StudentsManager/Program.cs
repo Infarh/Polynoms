@@ -30,4 +30,10 @@ var students = new Student[]
 XmlDocumentExamples.WriteDocument(students, "students.xml");
 var new_students = XmlDocumentExamples.ReadDocument("students.xml");
 
+XDocumentExamples.WriteXML(students, "stud.xml");
+XDocumentExamples.WriteXMLSimple(students, "stud-simple.xml");
+
+var new_students2 = XDocumentExamples.ReadXML("stud.xml");
+var new_students3 = XDocumentExamples.ReadXML("stud.xml");
+
 Console.ReadLine();
