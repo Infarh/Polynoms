@@ -13,14 +13,15 @@ var samples = new double[count];
 
 for (var i = 0; i < count; i++)
 {
-    var x = (rnd.NextDouble() * 2 - 1)
-        + (rnd.NextDouble() * 2 - 1)
-        + (rnd.NextDouble() * 2 - 1)
-        + (rnd.NextDouble() * 2 - 1)
-        + (rnd.NextDouble() * 2 - 1)
-        ;
+    //var x = (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    + (rnd.NextDouble() * 2 - 1)
+    //    ;
 
-    samples[i] = x / 1.3;
+    //samples[i] = x / 1.3;
+    samples[i] = rnd.NextNormal();
 }
 
 
