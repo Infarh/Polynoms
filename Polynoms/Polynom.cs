@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Polynoms
+﻿namespace Polynoms
 {
     public class Polynom
     {
         private static double Pow(double x, int n)
         {
-            var result = 1d;
+            if (n == 0) return 1;
+            if (n < 0) return Pow(1 / x, -n);
 
-            for (var i = 0; i < n; i++) 
+            var result = x;
+
+            for (var i = 1; i < n; i++)
                 result *= x;
 
             return result;
@@ -25,6 +22,18 @@ namespace Polynoms
             for (var i = 0; i < a.Length; i++)
             {
                 sum += a[i] * Pow(x, i);
+            }
+
+            return sum;
+        }
+
+        public static double GetValueNaive(double[] a, double x)
+        {
+            double sum = 0;
+
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += a[i] * Math.Pow(x, i);
             }
 
             return sum;
@@ -72,7 +81,7 @@ namespace Polynoms
             {
                 var result = (double[])p1._A.Clone();
                 //var result = new double[p1_length]; // неправильно - надо скопировать остальные элементы высших порядков в результат
-                for (var i = 0; i < p2_length; i++) 
+                for (var i = 0; i < p2_length; i++)
                     result[i] = p1._A[i] + p2._A[i];
 
                 return new Polynom(result);
@@ -100,7 +109,7 @@ namespace Polynoms
             {
                 var result = (double[])p1._A.Clone();
                 //var result = new double[p1_length]; // неправильно - надо скопировать остальные элементы высших порядков в результат
-                for (var i = 0; i < p2_length; i++) 
+                for (var i = 0; i < p2_length; i++)
                     result[i] = p1._A[i] - p2._A[i];
 
                 return new Polynom(result);

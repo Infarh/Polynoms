@@ -126,4 +126,4 @@ var exporter = new PngExporter(800, 600);
 using (var histogram_file = File.Create("histogram.png"))
     exporter.Export(plot, histogram_file);
 
-//Console.WriteLine();
+Console.ReadLine();
