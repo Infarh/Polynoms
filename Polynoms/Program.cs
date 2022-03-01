@@ -20,7 +20,7 @@ for (var i = 0; i < count; i++)
         + (rnd.NextDouble() * 2 - 1)
         ;
 
-    samples[i] = x / 5;
+    samples[i] = x / 1.3;
 }
 
 
