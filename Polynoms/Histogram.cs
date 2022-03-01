@@ -62,28 +62,41 @@ public class Histogram
         _Counts = counts;
         foreach (var x in Samples)
         {
-            for (var i = 0; i < IntervalsCount; i++)
+            if(x != max)
             {
-                var interval_min = min + i * dx;
-                var interval_max = interval_min + dx;
-
-                if (i < IntervalsCount - 1)
-                {
-                    if (x >= interval_min && x < interval_max)
-                    {
-                        counts[i]++;
-                        continue;
-                    }
-                }
-                else
-                {
-                    if (x >= interval_min && x <= interval_max)
-                    {
-                        counts[i]++;
-                        continue;
-                    }
-                }
+                var index = (int)((x - min) / dx);
+                counts[index]++;
             }
+            else
+            {
+                var index = (int)((x - min) / dx) - 1;
+                counts[index]++;
+            }
+
+
+            //for (var i = 0; i < IntervalsCount; i++)
+            //{
+
+            //    var interval_min = min + i * dx;
+            //    var interval_max = interval_min + dx;
+
+            //    if (i < IntervalsCount - 1)
+            //    {
+            //        if (x >= interval_min && x < interval_max)
+            //        {
+            //            counts[i]++;
+            //            continue;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (x >= interval_min && x <= interval_max)
+            //        {
+            //            counts[i]++;
+            //            continue;
+            //        }
+            //    }
+            //}
         }
 
     }
