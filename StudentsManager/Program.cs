@@ -1,4 +1,5 @@
-﻿using StudentsManager;
+﻿using System.Runtime.Serialization.Formatters.Binary;
+using StudentsManager;
 using System.Xml.Serialization;
 
 var students = new Student[]
@@ -39,11 +40,21 @@ var new_students3 = XDocumentExamples.ReadXML("stud.xml");
 
 var xml_serializer = new XmlSerializer(typeof(Student[]));
 
-using(var xml_file = File.Create("stud-serialized.xml"))
+using (var xml_file = File.Create("stud-serialized.xml"))
     xml_serializer.Serialize(xml_file, students);
 
 Student[] new_students4;
-using(var xml_file = File.OpenRead("stud-serialized.xml"))
+using (var xml_file = File.OpenRead("stud-serialized.xml"))
     new_students4 = (Student[])xml_serializer.Deserialize(xml_file)!;
+
+var bin_serializer = new BinaryFormatter();
+using (var bin_file = File.Create("stud-serialized.bin"))
+    bin_serializer.Serialize(bin_file, students);
+
+Student[] new_students5;
+using (var bin_file = File.OpenRead("stud-serialized.bin"))
+    new_students5 = (Student[])bin_serializer.Deserialize(bin_file)!;
+
+
 
 Console.ReadLine();
