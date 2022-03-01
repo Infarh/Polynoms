@@ -72,6 +72,7 @@ public class Histogram
                     if (x >= interval_min && x < interval_max)
                     {
                         counts[i]++;
+                        continue;
                     }
                 }
                 else
@@ -79,6 +80,7 @@ public class Histogram
                     if (x >= interval_min && x <= interval_max)
                     {
                         counts[i]++;
+                        continue;
                     }
                 }
             }
