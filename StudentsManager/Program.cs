@@ -17,6 +17,9 @@ using (var db = new StudentsDB(connection_options))
     db.Database.EnsureCreated();    // создаёт БД в случае её отсутствия
 
     var groups = new StudentGroup[10];
+    var n = 0;
+
+    var rnd = new Random();
     for (var i = 0; i < groups.Length; i++)
     {
         var group = new StudentGroup
@@ -25,6 +28,20 @@ using (var db = new StudentsDB(connection_options))
         };
 
         groups[i] = group;
+
+        for (var j = 0; j < 10; j++)
+        {
+            n++;
+            var student = new Student
+            {
+                LastName = $"Фамилия-{n}",
+                FirstName = $"Имя-{n}",
+                Patronymic = $"Отчество-{n}",
+                Rating = rnd.NextDouble() * 100,
+            };
+
+            group.Students.Add(student);
+        }
     }
 
     db.Groups.AddRange(groups);
