@@ -78,7 +78,6 @@ using (var db = new StudentsDB(connection_options))
 
 Console.WriteLine();
 
-
 using (var db = new StudentsDB(connection_options))
 {
     var first_top5_students = db.Students
@@ -106,4 +105,24 @@ using (var db = new StudentsDB(connection_options))
     var second_top5_students_average_rating = second_top5_students.Average(student => student.Rating);
     Console.WriteLine("Средний балл: {0}", second_top5_students_average_rating);
 
+}
+
+Console.WriteLine();
+Console.Clear();
+
+using (var db = new StudentsDB(connection_options))
+{
+    var best_groups = db.Groups
+       .Include(group => group.Students) // получить данные также из таблицы Students - формирует запрос JOIN
+       .OrderByDescending(group => group.Students.Average(student => student.Rating))
+       .Take(3);
+
+    foreach (var group in best_groups)
+    {
+        Console.WriteLine("Группа [id:{0}] {1} : {2}", 
+            group.Id, group.Name, group.Students.Average(s => s.Rating));
+
+        foreach (var student in group.Students.OrderByDescending(s => s.Rating).Take(3))
+            Console.WriteLine($"    [id:{student.Id}] {student.LastName} {student.FirstName} {student.Patronymic} - {student.Rating}");
+    }
 }
