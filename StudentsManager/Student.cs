@@ -13,6 +13,6 @@ public class Student
 
     public double Rating { get; set; }
 
-    //public int GroupId { get; set; }
-    public StudentGroup Group { get; set; }
+    public int? GroupId { get; set; }
+    public StudentGroup? Group { get; set; } = null;
 }

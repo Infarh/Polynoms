@@ -15,7 +15,7 @@ var connection_options = new DbContextOptionsBuilder<StudentsDB>()
 
 using (var db = new StudentsDB(connection_options))
 {
-    //db.Database.EnsureDeleted();  // удаляет БД в случае её наличия
+    db.Database.EnsureDeleted();  // удаляет БД в случае её наличия
     db.Database.EnsureCreated();    // создаёт БД в случае её отсутствия
 
     //if (db.Groups.Count() == 0)
@@ -63,6 +63,48 @@ using (var db = new StudentsDB(connection_options))
 
 //Console.ReadLine();
 //Console.Clear();
+
+using (var db = new StudentsDB(connection_options))
+{
+    if (!db.Groups.Any(group => group.Name == "Best group"))
+    {
+        var group = new StudentGroup
+        {
+            Name = "Best group"
+        };
+
+        var ivanov = new Student
+        {
+            LastName = "Иванов",
+            FirstName = "Иван",
+            Patronymic = "Иванович",
+            Rating = 146,
+            Group = group,
+        };
+
+        var petrov = new Student
+        {
+            LastName = "Петров",
+            FirstName = "Пётр",
+            Patronymic = "Петрович",
+            Rating = 132,
+            Group = group,
+        };
+
+        var sidorov = new Student
+        {
+            LastName = "Сидоров",
+            FirstName = "Сидор",
+            Patronymic = "Сидорович",
+            Rating = 200,
+            Group = group,
+        };
+
+        db.Students.AddRange(ivanov, petrov, sidorov);
+
+        db.SaveChanges();
+    }
+}
 
 using (var db = new StudentsDB(connection_options))
 {
@@ -119,10 +161,32 @@ using (var db = new StudentsDB(connection_options))
 
     foreach (var group in best_groups)
     {
-        Console.WriteLine("Группа [id:{0}] {1} : {2}", 
+        Console.WriteLine("Группа [id:{0}] {1} : {2}",
             group.Id, group.Name, group.Students.Average(s => s.Rating));
 
         foreach (var student in group.Students.OrderByDescending(s => s.Rating).Take(3))
             Console.WriteLine($"    [id:{student.Id}] {student.LastName} {student.FirstName} {student.Patronymic} - {student.Rating}");
     }
 }
+
+Console.WriteLine("Работа программы завершена. Готов к очистке данных.");
+Console.ReadLine();
+
+using (var db = new StudentsDB(connection_options))
+{
+    //var group = db.Groups.First(group => group.Name == "Best group");            // генерирует ошибку если группа не найдена
+    //var group = db.Groups.FirstOrDefault(group => group.Name == "Best group");   // если не найдено,то возвращает null
+    var group = db.Groups
+       .Include(g => g.Students)
+       .Single(g => g.Name == "Best group");           // Если не найдено, то ошибка, а также если в БД более одной такой группы
+    //var group = db.Groups.SingleOrDefault(group => group.Name == "Best group");    // если не найдено, то null, а также если в БД более одной такой группы, то это ошибка   
+
+    foreach (var student in group.Students)
+        student.Group = null;
+
+    db.Groups.Remove(group); // Удаление объекта локально в памяти программы
+
+    db.SaveChanges();   // передача изменений в БД
+}
+
+Console.WriteLine("Очистка данных выполнена");
