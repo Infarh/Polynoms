@@ -6,10 +6,12 @@ using StudentsManager;
 using StudentsManager.Context;
 
 
-var connection_string = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Students-DB";
+var connection_string_sql_server = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Students-DB";
+var connection_string_sqlite = @"Data Source=Students.db";
 
 var connection_options = new DbContextOptionsBuilder<StudentsDB>()
-   .UseSqlServer(connection_string)
+   //.UseSqlServer(connection_string_sql_server)
+   .UseSqlite(connection_string_sqlite)
    //.LogTo(str => Console.WriteLine(str))
    .Options;
 
