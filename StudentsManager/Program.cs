@@ -9,45 +9,57 @@ var connection_string = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Stu
 
 var connection_options = new DbContextOptionsBuilder<StudentsDB>()
    .UseSqlServer(connection_string)
+   .LogTo(str => Console.WriteLine(str))
    .Options;
 
 using (var db = new StudentsDB(connection_options))
 {
-    db.Database.EnsureDeleted();  // удаляет БД в случае её наличия
+    //db.Database.EnsureDeleted();  // удаляет БД в случае её наличия
     db.Database.EnsureCreated();    // создаёт БД в случае её отсутствия
 
-    var groups = new StudentGroup[10];
-    var n = 0;
-
-    var rnd = new Random();
-    for (var i = 0; i < groups.Length; i++)
+    //if (db.Groups.Count() == 0)
+    if (!db.Groups.Any())
     {
-        var group = new StudentGroup
-        {
-            Name = $"Группа #{i + 1}"
-        };
+        Console.WriteLine("Создание групп студентов в БД...");
 
-        groups[i] = group;
+        var groups = new StudentGroup[10];
+        var n = 0;
 
-        for (var j = 0; j < 10; j++)
+        var rnd = new Random();
+        for (var i = 0; i < groups.Length; i++)
         {
-            n++;
-            var student = new Student
+            var group = new StudentGroup
             {
-                LastName = $"Фамилия-{n}",
-                FirstName = $"Имя-{n}",
-                Patronymic = $"Отчество-{n}",
-                Rating = rnd.NextDouble() * 100,
+                Name = $"Группа #{i + 1}"
             };
 
-            group.Students.Add(student);
+            groups[i] = group;
+
+            for (var j = 0; j < 10; j++)
+            {
+                n++;
+                var student = new Student
+                {
+                    LastName = $"Фамилия-{n}",
+                    FirstName = $"Имя-{n}",
+                    Patronymic = $"Отчество-{n}",
+                    Rating = rnd.NextDouble() * 100,
+                };
+
+                group.Students.Add(student);
+            }
         }
+
+        db.Groups.AddRange(groups);
+
+        db.SaveChanges();
+
+        Console.WriteLine("Создание групп студентов в БД выполнено успешно");
     }
-
-    db.Groups.AddRange(groups);
-
-    db.SaveChanges();
+    else
+        Console.WriteLine("В БД есть данные");
 }
 
 
-//Console.ReadLine();
+
+Console.ReadLine();
