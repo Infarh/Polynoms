@@ -9,7 +9,7 @@ var connection_string = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Stu
 
 var connection_options = new DbContextOptionsBuilder<StudentsDB>()
    .UseSqlServer(connection_string)
-   .LogTo(str => Console.WriteLine(str))
+   //.LogTo(str => Console.WriteLine(str))
    .Options;
 
 using (var db = new StudentsDB(connection_options))
@@ -60,6 +60,17 @@ using (var db = new StudentsDB(connection_options))
         Console.WriteLine("В БД есть данные");
 }
 
+//Console.ReadLine();
+//Console.Clear();
 
+using (var db = new StudentsDB(connection_options))
+{
+    var best_students = db.Students
+       .Where(student => student.Rating < 30)
+       .Where(student => student.LastName.EndsWith("5"))
+       .ToArray();
 
-Console.ReadLine();
+    foreach (var student in best_students)
+        Console.WriteLine($"[id:{student.Id}] {student.LastName} {student.FirstName} {student.Patronymic} - {student.Rating}");
+
+}
