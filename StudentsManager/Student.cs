@@ -10,4 +10,6 @@ public class Student
     public string Patronymic { get; set; }
 
     public double Rating { get; set; }
+
+    public StudentGroup Group { get; set; }
 }
