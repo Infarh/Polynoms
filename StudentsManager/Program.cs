@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
+
 using StudentsManager;
 using StudentsManager.Context;
 
@@ -66,11 +67,43 @@ using (var db = new StudentsDB(connection_options))
 using (var db = new StudentsDB(connection_options))
 {
     var best_students = db.Students
-       .Where(student => student.Rating < 30)
+       .Where(student => student.Rating > 50)
        .Where(student => student.LastName.EndsWith("5"))
        .ToArray();
 
     foreach (var student in best_students)
         Console.WriteLine($"[id:{student.Id}] {student.LastName} {student.FirstName} {student.Patronymic} - {student.Rating}");
+
+}
+
+Console.WriteLine();
+
+
+using (var db = new StudentsDB(connection_options))
+{
+    var first_top5_students = db.Students
+       .OrderByDescending(student => student.Rating)
+       .Take(5);
+
+    Console.WriteLine();
+    Console.WriteLine("Первая 5-ка лучших студентов");
+    foreach (var student in first_top5_students)
+        Console.WriteLine($"[id:{student.Id}] {student.LastName} {student.FirstName} {student.Patronymic} - {student.Rating}");
+
+    var first_top5_students_average_rating = first_top5_students.Average(student => student.Rating);
+    Console.WriteLine("Средний балл: {0}", first_top5_students_average_rating);
+
+    var second_top5_students = db.Students
+       .OrderByDescending(student => student.Rating)
+       .Skip(5)
+       .Take(5);
+
+    Console.WriteLine();
+    Console.WriteLine("Вторая 5-ка лучших студентов");
+    foreach (var student in second_top5_students)
+        Console.WriteLine($"[id:{student.Id}] {student.LastName} {student.FirstName} {student.Patronymic} - {student.Rating}");
+
+    var second_top5_students_average_rating = second_top5_students.Average(student => student.Rating);
+    Console.WriteLine("Средний балл: {0}", second_top5_students_average_rating);
 
 }
