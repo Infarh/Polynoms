@@ -55,17 +55,21 @@
             // 
             // ResultPictureBox
             // 
+            this.ResultPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ResultPictureBox.Location = new System.Drawing.Point(12, 55);
             this.ResultPictureBox.Name = "ResultPictureBox";
-            this.ResultPictureBox.Size = new System.Drawing.Size(776, 383);
+            this.ResultPictureBox.Size = new System.Drawing.Size(762, 425);
+            this.ResultPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ResultPictureBox.TabIndex = 2;
             this.ResultPictureBox.TabStop = false;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(786, 492);
             this.Controls.Add(this.ResultPictureBox);
             this.Controls.Add(this.ResultLabel);
             this.Controls.Add(this.LoadPictureButton);
