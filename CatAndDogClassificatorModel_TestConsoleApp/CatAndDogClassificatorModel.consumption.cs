@@ -49,7 +49,7 @@ namespace CatAndDogClassificatorModel_TestConsoleApp
 
         private static string MLNetModelPath = Path.GetFullPath("CatAndDogClassificatorModel.zip");
 
-        public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
+        public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new(() => CreatePredictEngine(), true);
 
         /// <summary>
         /// Use this method to predict on <see cref="ModelInput"/>.
@@ -58,15 +58,16 @@ namespace CatAndDogClassificatorModel_TestConsoleApp
         /// <returns><seealso cref=" ModelOutput"/></returns>
         public static ModelOutput Predict(ModelInput input)
         {
-            var predEngine = PredictEngine.Value;
-            return predEngine.Predict(input);
+            var engine = PredictEngine.Value;
+            return engine.Predict(input);
         }
 
         private static PredictionEngine<ModelInput, ModelOutput> CreatePredictEngine()
         {
-            var mlContext = new MLContext();
-            ITransformer mlModel = mlContext.Model.Load(MLNetModelPath, out var _);
-            return mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
+            var ml_context = new MLContext();
+            var model = ml_context.Model.Load(MLNetModelPath, out var _);
+
+            return ml_context.Model.CreatePredictionEngine<ModelInput, ModelOutput>(model);
         }
     }
 }

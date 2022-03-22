@@ -1,10 +1,16 @@
 namespace CatAndDogClassificator
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
+        }
+
+        private void LoadPictureButton_OnClick(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Загрузка изображения");
+            ResultLabel.Text = "Текст с результатом классификации";
         }
     }
 }
