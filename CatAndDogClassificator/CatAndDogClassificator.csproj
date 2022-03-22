@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -7,5 +6,21 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML" Version="1.7.0" />
+    <PackageReference Include="Microsoft.ML.Vision" Version="1.7.0" />
+    <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup Label="CatAndDogClassificatorModel">
+    <None Include="CatAndDogClassificatorModel.consumption.cs">
+      <DependentUpon>CatAndDogClassificatorModel.mbconfig</DependentUpon>
+    </None>
+    <None Include="CatAndDogClassificatorModel.training.cs">
+      <DependentUpon>CatAndDogClassificatorModel.mbconfig</DependentUpon>
+    </None>
+    <None Include="CatAndDogClassificatorModel.zip">
+      <DependentUpon>CatAndDogClassificatorModel.mbconfig</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

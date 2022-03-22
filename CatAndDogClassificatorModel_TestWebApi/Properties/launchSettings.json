@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "CatAndDogClassificatorModel_TestWebApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:6089;http://localhost:6090"
+    }
+  }
+}

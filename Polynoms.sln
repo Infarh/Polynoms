@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsManager", "Students
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatAndDogClassificator", "CatAndDogClassificator\CatAndDogClassificator.csproj", "{36D9E726-39E8-4EC4-BC05-F21DFA257EAD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatAndDogClassificatorModel_TestConsoleApp", "CatAndDogClassificatorModel_TestConsoleApp\CatAndDogClassificatorModel_TestConsoleApp.csproj", "{CEF22889-B2DA-4C95-A09C-1017FF49265D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatAndDogClassificatorModel_TestWebApi", "CatAndDogClassificatorModel_TestWebApi\CatAndDogClassificatorModel_TestWebApi.csproj", "{A7FF4617-BF22-4306-865D-572F5646C4C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{36D9E726-39E8-4EC4-BC05-F21DFA257EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36D9E726-39E8-4EC4-BC05-F21DFA257EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36D9E726-39E8-4EC4-BC05-F21DFA257EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEF22889-B2DA-4C95-A09C-1017FF49265D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF22889-B2DA-4C95-A09C-1017FF49265D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF22889-B2DA-4C95-A09C-1017FF49265D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF22889-B2DA-4C95-A09C-1017FF49265D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7FF4617-BF22-4306-865D-572F5646C4C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7FF4617-BF22-4306-865D-572F5646C4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7FF4617-BF22-4306-865D-572F5646C4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7FF4617-BF22-4306-865D-572F5646C4C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
