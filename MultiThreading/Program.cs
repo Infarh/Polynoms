@@ -20,7 +20,7 @@ namespace MultiThreading
             // 2. Вытесняющая многопоточность
 
             var timer_thread = new Thread(UpdateHeaderTime);
-            timer_thread.IsBackground = true; // сделать поток фоновым
+            //timer_thread.IsBackground = true; // сделать поток фоновым
             timer_thread.Name = "Поток часов";
             timer_thread.Priority = ThreadPriority.AboveNormal;
             //timer_thread.IsAlive
@@ -33,8 +33,19 @@ namespace MultiThreading
             var main_thread = Thread.CurrentThread;
             Console.WriteLine("Основной поток имеет id:{0}", main_thread.ManagedThreadId);
 
+            for (var i = 0; i < 100; i++)
+            {
+                Console.WriteLine("Действие {0} в основном потоке", i);
+                Thread.Sleep(50);
+            }
+
             Console.WriteLine("Для выхода нажмите Enter");
             Console.ReadLine();
+
+            // остановка потока часов
+
+            timer_thread.Interrupt();
+            timer_thread.Abort(); // от этого метода отказались в силу его опасности
         }
 
         private static void UpdateHeaderTime()
@@ -43,10 +54,22 @@ namespace MultiThreading
 
             Console.WriteLine("Поток обновления часов запущен в потоке с ID:{0}", timer_thread.ManagedThreadId);
 
-            while (true)
+            try
             {
-                Console.Title = DateTime.Now.ToString("HH:mm:ss.fff");
-                Thread.Sleep(100);
+                while (true)
+                {
+                    Console.Title = DateTime.Now.ToString("HH:mm:ss.fff");
+                    Thread.Sleep(100);      // Метод ставит поток на паузу в планировщике потоков ОС
+                    Thread.SpinWait(10000); // Выполняет указанное количество пустых циклов процессора - требуется тогда, когда необходимо чуть-чуть приостановить программу
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                Console.WriteLine("Поток был прерван с помощью вызова Abort()");
+            }
+            catch (ThreadInterruptedException)
+            {
+                Console.WriteLine("Поток был прерван с помощью вызова Interrupt()");
             }
 
             Console.WriteLine("Поток обновления часов завершён ID:{0}", timer_thread.ManagedThreadId);
