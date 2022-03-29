@@ -33,7 +33,7 @@ namespace MultiThreading
             var main_thread = Thread.CurrentThread;
             Console.WriteLine("Основной поток имеет id:{0}", main_thread.ManagedThreadId);
 
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 30; i++)
             {
                 Console.WriteLine("Действие {0} в основном потоке", i);
                 Thread.Sleep(50);
@@ -44,10 +44,23 @@ namespace MultiThreading
 
             // остановка потока часов
 
-            timer_thread.Interrupt();
-            timer_thread.Abort(); // от этого метода отказались в силу его опасности
+            __CanTimeUpdate = false;
+
+            if (!timer_thread.Join(1000))
+            {
+                Console.WriteLine("Ожидание завершения работы потока часов превысило таймаут в 1000 мс");
+                timer_thread.Interrupt();
+                timer_thread.Join();
+            }
+
+            //timer_thread.Interrupt();
+            //timer_thread.Abort(); // от этого метода отказались в силу его опасности
+
+            Console.WriteLine("Работа программы завершена");
+            Console.ReadLine();
         }
 
+        private static bool __CanTimeUpdate = true;
         private static void UpdateHeaderTime()
         {
             var timer_thread = Thread.CurrentThread;
@@ -56,11 +69,11 @@ namespace MultiThreading
 
             try
             {
-                while (true)
+                while (__CanTimeUpdate)
                 {
                     Console.Title = DateTime.Now.ToString("HH:mm:ss.fff");
-                    Thread.Sleep(100);      // Метод ставит поток на паузу в планировщике потоков ОС
-                    Thread.SpinWait(10000); // Выполняет указанное количество пустых циклов процессора - требуется тогда, когда необходимо чуть-чуть приостановить программу
+                    Thread.Sleep(500);      // Метод ставит поток на паузу в планировщике потоков ОС
+                    //Thread.SpinWait(10000); // Выполняет указанное количество пустых циклов процессора - требуется тогда, когда необходимо чуть-чуть приостановить программу
                 }
             }
             catch (ThreadAbortException)
