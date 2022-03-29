@@ -24,7 +24,7 @@ namespace MultiThreading
             timer_thread.Name = "Поток часов";
             timer_thread.Priority = ThreadPriority.AboveNormal;
             //timer_thread.IsAlive
-            
+
 
             timer_thread.Start();
             var timer_tid = timer_thread.ManagedThreadId;
@@ -60,7 +60,8 @@ namespace MultiThreading
             Console.ReadLine();
         }
 
-        private static bool __CanTimeUpdate = true;
+        private static volatile bool __CanTimeUpdate = true; // volatile - предотвращает оптимизацию использования этого поля компилятором в режиме Release
+
         private static void UpdateHeaderTime()
         {
             var timer_thread = Thread.CurrentThread;
