@@ -1,6 +1,7 @@
 ﻿using MultiThreading;
 
-ThreadExamples.Run();
+//ThreadExamples.Run();
+MultiThreadDataProcessing.Run();
 
 Console.WriteLine("Работа программы завершена");
 Console.ReadLine();
