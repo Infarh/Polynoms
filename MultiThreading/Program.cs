@@ -30,17 +30,26 @@ namespace MultiThreading
             var timer_tid = timer_thread.ManagedThreadId;
             Console.WriteLine("Timer thread id:{0}", timer_tid);
 
-            Console.WriteLine("1231231213");
+            var main_thread = Thread.CurrentThread;
+            Console.WriteLine("Основной поток имеет id:{0}", main_thread.ManagedThreadId);
+
+            Console.WriteLine("Для выхода нажмите Enter");
             Console.ReadLine();
         }
 
         private static void UpdateHeaderTime()
         {
+            var timer_thread = Thread.CurrentThread;
+
+            Console.WriteLine("Поток обновления часов запущен в потоке с ID:{0}", timer_thread.ManagedThreadId);
+
             while (true)
             {
                 Console.Title = DateTime.Now.ToString("HH:mm:ss.fff");
                 Thread.Sleep(100);
             }
+
+            Console.WriteLine("Поток обновления часов завершён ID:{0}", timer_thread.ManagedThreadId);
         }
     }
 }
